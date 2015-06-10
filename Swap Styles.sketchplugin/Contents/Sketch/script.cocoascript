@@ -21,6 +21,8 @@ var swapstyles = function(context) {
 
 		setStyleFills([layer style], styles.fills);
 		setStyleBorders([layer style], styles.borders);
+		setStyleShadows([[layer style] shadows], styles.shadows);
+		setStyleShadows([[layer style] innerShadows], styles.innerShadows);
 
 		if ([layer class] == MSTextLayer) {
 			setStyleText(layer, styles.text);
@@ -34,13 +36,13 @@ var swapstyles = function(context) {
 			[[layer fills] addNewStylePart];
 			style = [[layer fills] objectAtIndex:i];
 
-			[style setIsEnabled:fills[i].isEnabled]
-			[style setFillType:fills[i].fillType]
-			[style setGradient:fills[i].gradient]
-			[style setColor:fills[i].fillColor]
-			[style setImage:fills[i].image]
-			[[style contextSettings] setOpacity:fills[i].opacity]
-			[[style contextSettings] setBlendMode:fills[i].blendMode]
+			[style setIsEnabled:fills[i].isEnabled];
+			[style setFillType:fills[i].fillType];
+			[style setGradient:fills[i].gradient];
+			[style setColor:fills[i].fillColor];
+			[style setImage:fills[i].image];
+			[[style contextSettings] setOpacity:fills[i].opacity];
+			[[style contextSettings] setBlendMode:fills[i].blendMode];
 		}
 	}
 
@@ -51,14 +53,30 @@ var swapstyles = function(context) {
 			[[layer borders] addNewStylePart];
 			style = [[layer borders] objectAtIndex:i];
 			
-			[style setIsEnabled:borders[i].isEnabled]
-			[style setThickness:borders[i].thickness]
-			[style setPosition:borders[i].position]
-			[style setFillType:borders[i].fillType]
-			[style setGradient:borders[i].gradient]
-			[style setColor:borders[i].fillColor]
-			[[style contextSettings] setOpacity:borders[i].opacity]
-			[[style contextSettings] setBlendMode:borders[i].blendMode]
+			[style setIsEnabled:borders[i].isEnabled];
+			[style setThickness:borders[i].thickness];
+			[style setPosition:borders[i].position];
+			[style setFillType:borders[i].fillType];
+			[style setGradient:borders[i].gradient];
+			[style setColor:borders[i].fillColor];
+			[[style contextSettings] setOpacity:borders[i].opacity];
+			[[style contextSettings] setBlendMode:borders[i].blendMode];
+		}
+	}
+
+	function setStyleShadows(styles, shadows) {
+		var style;
+
+		for (var i = 0; i < shadows.length; i++) {
+			[styles addNewStylePart];
+			style = [styles objectAtIndex:i];
+
+			[style setIsEnabled:shadows[i].isEnabled];
+			[style setColor:shadows[i].color];
+			[style setOffsetX:shadows[i].offsetX];
+			[style setOffsetY:shadows[i].offsetY];
+			[style setBlurRadius:shadows[i].blurRadius];
+			[style setSpread:shadows[i].spread];
 		}
 	}
 
@@ -77,6 +95,8 @@ var swapstyles = function(context) {
 		style.blendMode = [[[layer style] contextSettings] blendMode];
 		style.fills = parseStyleFills([[layer style] fills]);
 		style.borders = parseStyleBorders([[layer style] borders]);
+		style.shadows = parseStyleShadows([[layer style] shadows]);
+		style.innerShadows = parseStyleShadows([[layer style] innerShadows]);
 
 		if ([layer class] == MSTextLayer) {
 			style.text = parseStyleText(layer);
@@ -136,6 +156,30 @@ var swapstyles = function(context) {
 		return styles;
 	}
 
+	function parseStyleShadows(shadows) {
+		var styles = [],
+			parsedStyle,
+			curStyle,
+			items = [shadows array],
+			count = [items count];
+
+		for (var i = 0; i < count; i++) {
+			curStyle = [items objectAtIndex:i];
+			parsedStyle = {};
+
+			parsedStyle.isEnabled = [curStyle isEnabled];
+			parsedStyle.color = [curStyle color];
+			parsedStyle.offsetX = [curStyle offsetX];
+			parsedStyle.offsetY = [curStyle offsetY];
+			parsedStyle.blurRadius = [curStyle blurRadius];
+			parsedStyle.spread = [curStyle spread];
+
+			styles.push(parsedStyle);
+		}
+
+		return styles;
+	}
+
 	function parseStyleText(layer) {
 		return {
 			size: [layer fontSize],
@@ -147,7 +191,7 @@ var swapstyles = function(context) {
 	}
 
 	function resetStyle(layer) {
-		var properties = ['borders','fills','shadows','innerShadows'],
+		var properties = ["borders", "fills", "shadows", "innerShadows"],
 			pName,
 			styles,
 			count;
