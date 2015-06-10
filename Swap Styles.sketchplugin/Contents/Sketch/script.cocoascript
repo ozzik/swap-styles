@@ -1,0 +1,126 @@
+var swapstyles = function(context) {
+	var selection = context.selection;
+
+	if ([selection count] == 2) {
+		var layer = [[selection objectAtIndex:0] style],
+			layer2 = [[selection objectAtIndex:1] style];
+
+		var parsedStyle = parseStyle(layer);
+			parsedStyle2 = parseStyle(layer2);
+
+		resetStyle(layer);
+		setStyle(layer, parsedStyle2);
+
+		resetStyle(layer2);
+		setStyle(layer2, parsedStyle);
+	}
+
+	function setStyle(layer, styles) {
+		setStyleFills(layer, styles.fills);
+		setStyleBorders(layer, styles.borders);
+	}
+
+	function setStyleFills(layer, fills) {
+		var style;
+
+		for (var i = 0; i < fills.length; i++) {
+			[[layer fills] addNewStylePart];
+			style = [[layer fills] objectAtIndex:i];
+
+			[style setIsEnabled:fills[i].isEnabled]
+			[style setFillType:fills[i].fillType]
+			[style setGradient:fills[i].gradient]
+			[style setColor:fills[i].fillColor]
+			[style setImage:fills[i].image]
+		}
+	}
+
+	function setStyleBorders(layer, borders) {
+		var style;
+
+		for (var i = 0; i < borders.length; i++) {
+			[[layer borders] addNewStylePart];
+			style = [[layer borders] objectAtIndex:i];
+			
+			[style setIsEnabled:borders[i].isEnabled]
+			[style setThickness:borders[i].thickness]
+			[style setPosition:borders[i].position]
+			[style setFillType:borders[i].fillType]
+			[style setGradient:borders[i].gradient]
+			[style setColor:borders[i].fillColor]
+		}
+	}
+
+	function parseStyle(layer) {
+		var style = {};
+
+		style.fills = parseStyleFills([layer fills]);
+		style.borders = parseStyleBorders([layer borders]);
+
+		return style;
+	}
+
+	function parseStyleFills(fills) {
+		var styles = [],
+			parsedStyle,
+			curStyle,
+			items = [fills array],
+			count = [items count];
+
+		for (var i = 0; i < count; i++) {
+			curStyle = [items objectAtIndex:i];
+			parsedStyle = {};
+
+			parsedStyle.isEnabled = [curStyle isEnabled];
+			parsedStyle.fillType = [curStyle fillType];
+			parsedStyle.gradient = [curStyle gradient];
+			parsedStyle.image = [curStyle image];
+			parsedStyle.fillColor = [curStyle color];
+
+			styles.push(parsedStyle);
+		}
+
+		return styles;
+	}
+
+	function parseStyleBorders(borders) {
+		var styles = [],
+			parsedStyle,
+			curStyle,
+			items = [borders array],
+			count = [items count];
+
+		for (var i = 0; i < count; i++) {
+			curStyle = [items objectAtIndex:i];
+			parsedStyle = {};
+
+			parsedStyle.isEnabled = [curStyle isEnabled];
+			parsedStyle.thickness = [curStyle thickness];
+			parsedStyle.position = [curStyle position];
+			parsedStyle.fillType = [curStyle fillType];
+			parsedStyle.fillColor = [curStyle color];
+			parsedStyle.gradient = [curStyle gradient];
+
+			styles.push(parsedStyle);
+		}
+
+		return styles;
+	}
+
+	function resetStyle(layer) {
+		var properties = ['borders','fills','shadows','innerShadows'],
+			pName,
+			styles,
+			count;
+
+		for (var property in properties) {
+			pName = properties[property];
+			styles = layer[pName]();
+			count = [styles count];
+
+			for (var i = count; i >= 0; i--) {
+				[styles removeStylePartAtIndex:i];
+			}
+		}
+	}
+}

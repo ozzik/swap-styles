@@ -1,0 +1,23 @@
+{
+  "author" : "Oz Pinhas",
+  "commands" : [
+    {
+      "script" : "script.cocoascript",
+      "handler" : "swapstyles",
+      "shortcut" : "cmd ctrl s",
+      "name" : "Swap Styles",
+      "identifier" : "swapstyles"
+    },
+  ],
+  "menu": {
+    "isRoot": true,
+    "items": [
+      "swapstyles"
+    ]
+  },
+  "identifier" : "co.ozzik.swapstyles",
+  "version" : "0.1",
+  "description" : "Swaps the styling of two layers",
+  "authorEmail" : "hey@ozzik.co",
+  "name" : "Swap Styles"
+}
