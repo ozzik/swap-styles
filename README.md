@@ -7,4 +7,6 @@ A little plugin for swaping styles between 2 layers in Sketch. Don't ```⌘⌥C`
 
 ## Notes
 * Tested on Sketch 3.3.2
-* Works only on shape layer and swaps only fills and borders. Shadows and text styles support is coming up!
+* Works with shape and text layers
+* Swaps layers' fills, borders, shadows, blur, opacity and blend mode
+* Zoom blur's origin is always reset upon swapping :<

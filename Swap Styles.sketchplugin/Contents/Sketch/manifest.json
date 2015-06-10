@@ -16,7 +16,7 @@
     ]
   },
   "identifier" : "co.ozzik.swapstyles",
-  "version" : "0.1",
+  "version" : "1.0",
   "description" : "Swaps the styling of two layers",
   "authorEmail" : "hey@ozzik.co",
   "name" : "Swap Styles"
