@@ -23,6 +23,7 @@ var swapstyles = function(context) {
 		setStyleBorders([layer style], styles.borders);
 		setStyleShadows([[layer style] shadows], styles.shadows);
 		setStyleShadows([[layer style] innerShadows], styles.innerShadows);
+		setStyleBlur([[layer style] blur], styles.blur);
 
 		if ([layer class] == MSTextLayer) {
 			setStyleText(layer, styles.text);
@@ -88,15 +89,24 @@ var swapstyles = function(context) {
 		[layer setLineSpacing:text.lineSpacing];
 	}
 
+	function setStyleBlur(blurStyle, blur) {
+		[blurStyle setIsEnabled:blur.isEnabeled];
+		[blurStyle setType:blur.type];
+		[blurStyle setRadius:blur.radius];
+		[blurStyle setMotionAngle:blur.motionAngle];
+	}
+
 	function parseStyle(layer) {
 		var style = {};
 
 		style.opacity = [[[layer style] contextSettings] opacity];
 		style.blendMode = [[[layer style] contextSettings] blendMode];
+
 		style.fills = parseStyleFills([[layer style] fills]);
 		style.borders = parseStyleBorders([[layer style] borders]);
 		style.shadows = parseStyleShadows([[layer style] shadows]);
 		style.innerShadows = parseStyleShadows([[layer style] innerShadows]);
+		style.blur = parseStyleBlur([[layer style] blur]);
 
 		if ([layer class] == MSTextLayer) {
 			style.text = parseStyleText(layer);
@@ -178,6 +188,15 @@ var swapstyles = function(context) {
 		}
 
 		return styles;
+	}
+
+	function parseStyleBlur(blur) {
+		return {
+			isEnabeled: [blur isEnabled],
+			type: [blur type],
+			radius: [blur radius],
+			motionAngle: [blur motionAngle]
+		};
 	}
 
 	function parseStyleText(layer) {
