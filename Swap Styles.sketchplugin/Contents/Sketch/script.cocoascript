@@ -2,8 +2,8 @@ var swapstyles = function(context) {
 	var selection = context.selection;
 
 	if ([selection count] == 2) {
-		var layer = [[selection objectAtIndex:0] style],
-			layer2 = [[selection objectAtIndex:1] style];
+		var layer = [selection objectAtIndex:0],
+			layer2 = [selection objectAtIndex:1];
 
 		var parsedStyle = parseStyle(layer);
 			parsedStyle2 = parseStyle(layer2);
@@ -16,8 +16,15 @@ var swapstyles = function(context) {
 	}
 
 	function setStyle(layer, styles) {
-		setStyleFills(layer, styles.fills);
-		setStyleBorders(layer, styles.borders);
+		[[[layer style] contextSettings] setOpacity:styles.opacity];
+		[[[layer style] contextSettings] setBlendMode:styles.blendMode];
+
+		setStyleFills([layer style], styles.fills);
+		setStyleBorders([layer style], styles.borders);
+
+		if ([layer class] == MSTextLayer) {
+			setStyleText(layer, styles.text);
+		}
 	}
 
 	function setStyleFills(layer, fills) {
@@ -32,6 +39,8 @@ var swapstyles = function(context) {
 			[style setGradient:fills[i].gradient]
 			[style setColor:fills[i].fillColor]
 			[style setImage:fills[i].image]
+			[[style contextSettings] setOpacity:fills[i].opacity]
+			[[style contextSettings] setBlendMode:fills[i].blendMode]
 		}
 	}
 
@@ -48,14 +57,30 @@ var swapstyles = function(context) {
 			[style setFillType:borders[i].fillType]
 			[style setGradient:borders[i].gradient]
 			[style setColor:borders[i].fillColor]
+			[[style contextSettings] setOpacity:borders[i].opacity]
+			[[style contextSettings] setBlendMode:borders[i].blendMode]
 		}
+	}
+
+	function setStyleText(layer, text) {
+		[layer setFontSize:text.size];
+		[layer setFontPostscriptName:text.name];
+		[layer setTextColor:text.color];
+		[layer setCharacterSpacing:text.characterSpacing];
+		[layer setLineSpacing:text.lineSpacing];
 	}
 
 	function parseStyle(layer) {
 		var style = {};
 
-		style.fills = parseStyleFills([layer fills]);
-		style.borders = parseStyleBorders([layer borders]);
+		style.opacity = [[[layer style] contextSettings] opacity];
+		style.blendMode = [[[layer style] contextSettings] blendMode];
+		style.fills = parseStyleFills([[layer style] fills]);
+		style.borders = parseStyleBorders([[layer style] borders]);
+
+		if ([layer class] == MSTextLayer) {
+			style.text = parseStyleText(layer);
+		}
 
 		return style;
 	}
@@ -76,6 +101,8 @@ var swapstyles = function(context) {
 			parsedStyle.gradient = [curStyle gradient];
 			parsedStyle.image = [curStyle image];
 			parsedStyle.fillColor = [curStyle color];
+			parsedStyle.opacity = [[curStyle contextSettings] opacity];
+			parsedStyle.blendMode = [[curStyle contextSettings] blendMode];
 
 			styles.push(parsedStyle);
 		}
@@ -100,11 +127,23 @@ var swapstyles = function(context) {
 			parsedStyle.fillType = [curStyle fillType];
 			parsedStyle.fillColor = [curStyle color];
 			parsedStyle.gradient = [curStyle gradient];
+			parsedStyle.opacity = [[curStyle contextSettings] opacity];
+			parsedStyle.blendMode = [[curStyle contextSettings] blendMode];
 
 			styles.push(parsedStyle);
 		}
 
 		return styles;
+	}
+
+	function parseStyleText(layer) {
+		return {
+			size: [layer fontSize],
+			name: [layer fontPostscriptName],
+			color: [layer textColor],
+			characterSpacing: [layer characterSpacing],
+			lineSpacing: [layer lineSpacing]
+		};
 	}
 
 	function resetStyle(layer) {
@@ -115,7 +154,7 @@ var swapstyles = function(context) {
 
 		for (var property in properties) {
 			pName = properties[property];
-			styles = layer[pName]();
+			styles = [layer style][pName]();
 			count = [styles count];
 
 			for (var i = count; i >= 0; i--) {
