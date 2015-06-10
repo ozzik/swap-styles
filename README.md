@@ -1,5 +1,5 @@
 # Swap Styles
-A little plugin for swaping styles between 2 layers in Sketch. Don't ```⌘ ⌥ c```/```⌘ ⌥ v``` endlessly, just have a little ```⌘ ^ s``` (cmd + ctrl + S).
+A little plugin for swapping styles between two layers in Sketch. Don't ```⌘ ⌥ c```/```⌘ ⌥ v``` endlessly, just have a little ```⌘ ^ s``` (cmd + ctrl + S).
 
 Like this
 
