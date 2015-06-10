@@ -1,5 +1,17 @@
 # Swap Styles
-A little plugin for swaping styles between 2 layers in Sketch. Don't ```⌘⌥C```/```⌘⌥V``` endlessly, just ```⌘^S``` (cmd + ctrl + S).
+A little plugin for swaping styles between 2 layers in Sketch. Don't ```⌘ ⌥ c```/```⌘ ⌥ v``` endlessly, just ```⌘ ^ s``` (cmd + ctrl + S).
+
+Like this
+
+![Swap text styles](readme-assets/demo1.gif)
+
+And this
+
+![Swap shape and text styles](readme-assets/demo2.gif)
+
+Or maybe this
+
+![Swap even weird styles!](readme-assets/demo3.gif)
 
 ## How to Install
 1. Download and open ```swap-styles-master.zip```
