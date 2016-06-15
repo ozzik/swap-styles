@@ -9,20 +9,22 @@ var swapstyles = function(context) {
 			parsedStyle2 = parseStyle(layer2);
 
 		resetStyle(layer);
-		setStyle(layer, parsedStyle2);
-
 		resetStyle(layer2);
+
+		setStyle(layer, parsedStyle2);
 		setStyle(layer2, parsedStyle);
+
+		context.document.reloadInspector();
 	}
 
 	function setStyle(layer, styles) {
 		[[[layer style] contextSettings] setOpacity:styles.opacity];
 		[[[layer style] contextSettings] setBlendMode:styles.blendMode];
 
-		setStyleFills([layer style], styles.fills);
-		setStyleBorders([layer style], styles.borders);
-		setStyleShadows([[layer style] shadows], styles.shadows);
-		setStyleShadows([[layer style] innerShadows], styles.innerShadows);
+		setStyleFills(layer, styles.fills);
+		setStyleBorders(layer, styles.borders);
+		setStyleShadows(layer, styles.shadows, 2);
+		setStyleShadows(layer, styles.innerShadows, 3);
 		setStyleBlur([[layer style] blur], styles.blur);
 
 		if ([layer class] == MSTextLayer) {
@@ -34,8 +36,7 @@ var swapstyles = function(context) {
 		var style;
 
 		for (var i = 0; i < fills.length; i++) {
-			[[layer fills] addNewStylePart];
-			style = [[layer fills] objectAtIndex:i];
+			style = layer.style().addStylePartOfType(0);
 
 			[style setIsEnabled:fills[i].isEnabled];
 			[style setFillType:fills[i].fillType];
@@ -51,8 +52,7 @@ var swapstyles = function(context) {
 		var style;
 
 		for (var i = 0; i < borders.length; i++) {
-			[[layer borders] addNewStylePart];
-			style = [[layer borders] objectAtIndex:i];
+			style = layer.style().addStylePartOfType(1);
 			
 			[style setIsEnabled:borders[i].isEnabled];
 			[style setThickness:borders[i].thickness];
@@ -65,12 +65,11 @@ var swapstyles = function(context) {
 		}
 	}
 
-	function setStyleShadows(styles, shadows) {
+	function setStyleShadows(layer, shadows, type) {
 		var style;
 
 		for (var i = 0; i < shadows.length; i++) {
-			[styles addNewStylePart];
-			style = [styles objectAtIndex:i];
+			style = layer.style().addStylePartOfType(type);
 
 			[style setIsEnabled:shadows[i].isEnabled];
 			[style setColor:shadows[i].color];
@@ -213,16 +212,11 @@ var swapstyles = function(context) {
 		var properties = ["borders", "fills", "shadows", "innerShadows"],
 			pName,
 			styles,
-			count;
+			arr;
 
 		for (var property in properties) {
 			pName = properties[property];
-			styles = [layer style][pName]();
-			count = [styles count];
-
-			for (var i = count; i >= 0; i--) {
-				[styles removeStylePartAtIndex:i];
-			}
+			[layer style]["set" + pName[0].toUpperCase() + pName.substring(1)]([[MSArray alloc] init])
 		}
 	}
 }
