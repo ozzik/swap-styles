@@ -118,11 +118,10 @@ var swapstyles = function(context) {
 		var styles = [],
 			parsedStyle,
 			curStyle,
-			items = [fills array],
-			count = [items count];
+			count = fills.count();
 
 		for (var i = 0; i < count; i++) {
-			curStyle = [items objectAtIndex:i];
+			curStyle = fills[i];
 			parsedStyle = {};
 
 			parsedStyle.isEnabled = [curStyle isEnabled];
@@ -143,11 +142,10 @@ var swapstyles = function(context) {
 		var styles = [],
 			parsedStyle,
 			curStyle,
-			items = [borders array],
-			count = [items count];
+			count = borders.count();
 
 		for (var i = 0; i < count; i++) {
-			curStyle = [items objectAtIndex:i];
+			curStyle = borders[i];
 			parsedStyle = {};
 
 			parsedStyle.isEnabled = [curStyle isEnabled];
@@ -169,11 +167,10 @@ var swapstyles = function(context) {
 		var styles = [],
 			parsedStyle,
 			curStyle,
-			items = [shadows array],
-			count = [items count];
+			count = shadows.count();
 
 		for (var i = 0; i < count; i++) {
-			curStyle = [items objectAtIndex:i];
+			curStyle = shadows[i];
 			parsedStyle = {};
 
 			parsedStyle.isEnabled = [curStyle isEnabled];
@@ -216,7 +213,7 @@ var swapstyles = function(context) {
 
 		for (var property in properties) {
 			pName = properties[property];
-			[layer style]["set" + pName[0].toUpperCase() + pName.substring(1)]([[MSArray alloc] init])
+			layer.style()["removeAllStyle" + pName[0].toUpperCase() + pName.substring(1)]();
 		}
 	}
 }
