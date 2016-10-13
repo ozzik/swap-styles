@@ -85,7 +85,7 @@ var swapstyles = function(context) {
 		[layer setFontPostscriptName:text.name];
 		[layer setTextColor:text.color];
 		[layer setCharacterSpacing:text.characterSpacing];
-		[layer setLineSpacing:text.lineSpacing];
+		[layer setLineHeight:text.lineHeight];
 	}
 
 	function setStyleBlur(blurStyle, blur) {
@@ -201,7 +201,7 @@ var swapstyles = function(context) {
 			name: [layer fontPostscriptName],
 			color: [layer textColor],
 			characterSpacing: [layer characterSpacing],
-			lineSpacing: [layer lineSpacing]
+			lineHeight: [layer lineHeight]
 		};
 	}
 
