@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Swap Styles</title>
+    <link>https://raw.githubusercontent.com/ozzik/swap-styles/master/appcast.xml</link>
+    <description>Swaps the styling of two layers</description>
+    <language>en</language>
+      <item>
+        <title>Version 1.0.4</title>
+        <description>
+          <![CDATA[
+            <ul>
+              <li>Minor update v1.0.4</li>
+            </ul>
+          ]]>
+        </description>
+        <enclosure url="https://github.com/ozzik/swap-styles/archive/master.zip" sparkle:version="1.0.4" />
+      </item>
+  </channel>
+</rss>

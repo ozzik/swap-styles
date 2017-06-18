@@ -16,8 +16,9 @@
     ]
   },
   "identifier" : "co.ozzik.swapstyles",
-  "version" : "1.0.3",
+  "version" : "1.0.4",
   "description" : "Swaps the styling of two layers",
   "authorEmail" : "hey@ozzik.co",
-  "name" : "Swap Styles"
+  "name" : "Swap Styles",
+  "appcast": "https://raw.githubusercontent.com/ozzik/swap-styles/master/appcast.xml"
 }
