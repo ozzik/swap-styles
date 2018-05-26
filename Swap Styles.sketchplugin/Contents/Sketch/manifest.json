@@ -7,7 +7,7 @@
       "shortcut" : "cmd ctrl s",
       "name" : "Swap Styles",
       "identifier" : "swapstyles"
-    },
+    }
   ],
   "menu": {
     "isRoot": true,
